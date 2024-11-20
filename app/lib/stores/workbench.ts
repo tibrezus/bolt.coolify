@@ -325,6 +325,7 @@ export class WorkbenchStore {
   async downloadZip() {
     const zip = new JSZip();
     const files = this.files.get();
+    const projectName = prompt('Enter the project name:', 'project') || 'project';
 
     for (const [filePath, dirent] of Object.entries(files)) {
       if (dirent?.type === 'file' && !dirent.isBinary) {
@@ -349,7 +350,7 @@ export class WorkbenchStore {
     }
 
     const content = await zip.generateAsync({ type: 'blob' });
-    saveAs(content, 'project.zip');
+    saveAs(content, `${projectName}.zip`);
   }
 
   async syncFiles(targetHandle: FileSystemDirectoryHandle) {
