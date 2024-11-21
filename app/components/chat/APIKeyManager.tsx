@@ -10,7 +10,7 @@ interface APIKeyManagerProps {
   labelForGetApiKey?: string;
 }
 
-export const APIKeyManager: React.FC<APIKeyManagerProps> = ({ provider, apiKey, setApiKey }) => {
+export const ApiKeyManager: React.FC<APIKeyManagerProps> = ({ provider, apiKey, setApiKey }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [tempKey, setTempKey] = useState(apiKey);
 
