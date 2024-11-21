@@ -192,7 +192,7 @@ const PROVIDER_LIST: ProviderInfo[] = [
       { name: 'deepseek-coder', label: 'Deepseek-Coder', provider: 'Deepseek', maxTokenAllowed: 8000 },
       { name: 'deepseek-chat', label: 'Deepseek-Chat', provider: 'Deepseek', maxTokenAllowed: 8000 },
     ],
-    getApiKeyLink: 'https://platform.deepseek.com/api_keys',
+    getApiKeyLink: 'https://platform.deepseek.com/apiKeys',
   },
   {
     name: 'Mistral',
@@ -242,8 +242,8 @@ const getOllamaBaseUrl = () => {
 
 async function getOllamaModels(): Promise<ModelInfo[]> {
   try {
-    const base_url = getOllamaBaseUrl();
-    const response = await fetch(`${base_url}/api/tags`);
+    const baseUrl = getOllamaBaseUrl();
+    const response = await fetch(`${baseUrl}/api/tags`);
     const data = (await response.json()) as OllamaApiResponse;
 
     return data.models.map((model: OllamaModel) => ({
@@ -253,22 +253,23 @@ async function getOllamaModels(): Promise<ModelInfo[]> {
       maxTokenAllowed: 8000,
     }));
   } catch (e) {
+    console.log('No Ollama model found', e);
     return [];
   }
 }
 
 async function getOpenAILikeModels(): Promise<ModelInfo[]> {
   try {
-    const base_url = import.meta.env.OPENAI_LIKE_API_BASE_URL || '';
+    const baseUrl = import.meta.env.OPENAI_LIKE_API_BASE_URL || '';
 
-    if (!base_url) {
+    if (!baseUrl) {
       return [];
     }
 
-    const api_key = import.meta.env.OPENAI_LIKE_API_KEY ?? '';
-    const response = await fetch(`${base_url}/models`, {
+    const apiKey = import.meta.env.OPENAI_LIKE_API_KEY ?? '';
+    const response = await fetch(`${baseUrl}/models`, {
       headers: {
-        Authorization: `Bearer ${api_key}`,
+        Authorization: `Bearer ${apiKey}`,
       },
     });
     const res = (await response.json()) as any;
@@ -279,6 +280,7 @@ async function getOpenAILikeModels(): Promise<ModelInfo[]> {
       provider: 'OpenAILike',
     }));
   } catch (e) {
+    console.log('No OpenAI-like model found', e);
     return [];
   }
 }
@@ -318,8 +320,8 @@ async function getOpenRouterModels(): Promise<ModelInfo[]> {
 
 async function getLMStudioModels(): Promise<ModelInfo[]> {
   try {
-    const base_url = import.meta.env.LMSTUDIO_API_BASE_URL || 'http://localhost:1234';
-    const response = await fetch(`${base_url}/v1/models`);
+    const baseUrl = import.meta.env.LMSTUDIO_API_BASE_URL || 'http://localhost:1234';
+    const response = await fetch(`${baseUrl}/v1/models`);
     const data = (await response.json()) as any;
 
     return data.data.map((model: any) => ({
@@ -328,6 +330,7 @@ async function getLMStudioModels(): Promise<ModelInfo[]> {
       provider: 'LMStudio',
     }));
   } catch (e) {
+    console.log('No LMStudio model found', e);
     return [];
   }
 }
