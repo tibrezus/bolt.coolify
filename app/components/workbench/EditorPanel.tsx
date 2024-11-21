@@ -239,7 +239,7 @@ export const EditorPanel = memo(
                             <div className="i-ph:terminal-window-duotone text-lg" />
                             Terminal {terminalCount > 1 && index}
                           </button>
-                        </React.Fragment>
+                          </React.Fragment>
                       )}
                     </React.Fragment>
                   );
